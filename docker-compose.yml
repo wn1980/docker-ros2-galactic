@@ -1,0 +1,39 @@
+version: '2.3'
+
+# create default network
+#networks:
+#  default:
+#    external:
+#      name: ros-network
+
+volumes:
+  workspace:
+
+services:
+
+  ros2:
+    #build: ./image
+    image: wn1980/ros2-galactic${TAG}
+    container_name: ros2_galactic
+    init: true
+    restart: unless-stopped
+    privileged: true
+    network_mode: host
+    devices:
+      - "/dev:/dev"
+    volumes:
+      - "/dev:/dev"
+      - "/run/systemd:/run/systemd"
+      - "/etc/localtime:/etc/localtime:ro"
+      - "workspace:/workspace"
+      - "~/.gitconfig:/home/developer/.gitconfig"
+    healthcheck:
+      test: ["CMD-SHELL", "test -e /tmp/.X11-unix/X1"]
+      interval: "1m"
+      retries: 20
+    environment:
+      - ROS_DOMAIN_ID=50
+      - DISPLAY=:1
+    #ports:
+    #  - "8559:8008"
+    #  - "9902:6901"
