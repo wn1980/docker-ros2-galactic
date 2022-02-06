@@ -22,7 +22,7 @@ if [ ! -d $TURTLEBOT_WS/src/kobuki_ros ]; then
   git clone https://github.com/kobuki-base/velocity_smoother.git
   git clone https://github.com/kobuki-base/cmd_vel_mux.git
 
-  git clone https://github.com/kobuki-base/kobuki_ros.git && \
+  git clone https://github.com/wn1980/kobuki_ros.git -b galactic && \
 	mv kobuki_ros/kobuki_node kobuki_ros/kobuki_keyop kobuki_ros/kobuki_safety_controller kobuki_ros/kobuki_bumper2pc ./ && \
 	rm -rf kobuki_ros
 
