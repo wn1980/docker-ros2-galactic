@@ -1,5 +1,4 @@
 #!/usr/bin/env bash
-# Based on: https://github.com/gaunthan/Turtlebot2-On-Melodic
 
 set -e
 
@@ -13,17 +12,28 @@ if [ ! -d $TURTLEBOT_WS/src/kobuki_ros ]; then
 
   cd $TURTLEBOT_WS/src
 
-  #git clone https://github.com/turtlebot/turtlebot.git
-  #git clone https://github.com/turtlebot/turtlebot_msgs.git
-  #git clone https://github.com/turtlebot/turtlebot_apps.git
-  #git clone https://github.com/turtlebot/turtlebot_simulator.git
-  #git clone https://github.com/turtlebot/turtlebot_viz.git
+  git clone https://github.com/stonier/sophus.git -b release/1.2.x
+  git clone https://github.com/stonier/ecl_core.git -b release/1.2.x
+  git clone https://github.com/stonier/ecl_lite.git -b release/1.1.x
+  git clone https://github.com/stonier/ecl_tools.git -b release/1.0.x
 
-  git clone https://github.com/kobuki-base/kobuki_ros.git
+  git clone https://github.com/kobuki-base/kobuki_core.git
   git clone https://github.com/kobuki-base/kobuki_ros_interfaces.git
   git clone https://github.com/kobuki-base/velocity_smoother.git
   git clone https://github.com/kobuki-base/cmd_vel_mux.git
 
+  git clone https://github.com/kobuki-base/kobuki_ros.git && \
+	mv kobuki_ros/kobuki_node kobuki_ros/kobuki_keyop kobuki_ros/kobuki_safety_controller kobuki_ros/kobuki_bumper2pc ./ && \
+	rm -rf kobuki_ros
+
+  git clone https://github.com/michieletto/kobuki_ros.git && \
+	mv kobuki_ros/kobuki_description ./ && \
+	rm -rf kobuki_ros
+
+	git clone https://github.com/wn1980/kobuki_ros.git && \
+	mv kobuki_ros/kobuki_auto_docking ./ && \
+	rm -rf kobuki_ros
+  
   # Additionals
   git clone https://github.com/YDLIDAR/ydlidar_ros2_driver.git
   git clone https://github.com/wn1980/turtlebot2_ros2.git
@@ -44,7 +54,7 @@ rm -rf ~/YDLidar-SDK
 # make and install
 cd $TURTLEBOT_WS
 
-sudo rosdep install -i --from-path src --rosdistro foxy -y
+sudo rosdep install -i --from-path src --rosdistro galactic -y
   
 source /opt/ros/${ROS_DISTRO}/setup.bash
 
