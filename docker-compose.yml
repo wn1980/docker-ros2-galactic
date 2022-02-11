@@ -33,7 +33,6 @@ services:
       retries: 20
     environment:
       - ROS_DOMAIN_ID=50
-      - DISPLAY=:9
     #ports:
     #  - "8559:8008"
     #  - "9902:6901"

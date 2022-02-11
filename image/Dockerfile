@@ -192,7 +192,7 @@ COPY ./app /app
 
 RUN sudo chown -R developer:developer /app
 
-ENV DISPLAY ":1"
+ENV DISPLAY ":9"
 
 EXPOSE 8008 6901
 
