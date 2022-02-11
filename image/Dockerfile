@@ -37,7 +37,7 @@ RUN apt-get install -y \
     iputils-ping \
     usbutils \
     tigervnc-standalone-server \
-    #tigervnc-xorg-extension \
+    tigervnc-xorg-extension \
     #python-pip \
     python3-dev \
 	python3-pip \
@@ -93,9 +93,9 @@ RUN apt-get install -y \
 	&& rm -rf /var/lib/apt/lists/*
 
 # update tigervnc
-COPY ./app/install/tigervnc.sh /
+#COPY ./app/install/tigervnc.sh /
 
-RUN /tigervnc.sh && sudo rm -f /tigervnc.sh
+#RUN /tigervnc.sh && sudo rm -f /tigervnc.sh
 
 # install noVNC
 COPY ./app/install/no-vnc.sh /
