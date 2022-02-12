@@ -20,17 +20,10 @@ if [ ! -d $TURTLEBOT_WS/src/kobuki_ros ]; then
   git clone https://github.com/kobuki-base/kobuki_core.git
   git clone https://github.com/kobuki-base/velocity_smoother.git
   git clone https://github.com/kobuki-base/cmd_vel_mux.git
-
-  git clone https://github.com/wn1980/kobuki_ros.git -b galactic-devel && \
-	mv kobuki_ros/kobuki_node kobuki_ros/kobuki_keyop kobuki_ros/kobuki_safety_controller \
-     kobuki_ros/kobuki_bumper2pc kobuki_ros/kobuki_auto_docking ./ && \
-	rm -rf kobuki_ros
-
-  git clone https://github.com/michieletto/kobuki_ros.git && \
-	mv kobuki_ros/kobuki_description ./ && \
-	rm -rf kobuki_ros
   
-   git clone https://github.com/kobuki-base/kobuki_ros_interfaces.git
+  git clone https://github.com/kobuki-base/kobuki_ros_interfaces.git
+
+   git clone https://github.com/wn1980/kobuki_ros.git -b galactic-devel 
 
   # Additionals
   git clone https://github.com/YDLIDAR/ydlidar_ros2_driver.git
