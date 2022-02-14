@@ -23,7 +23,7 @@ if [ ! -d $TURTLEBOT_WS/src/kobuki_ros ]; then
   
   git clone https://github.com/kobuki-base/kobuki_ros_interfaces.git
 
-   git clone https://github.com/wn1980/kobuki_ros.git -b galactic-devel 
+   git clone https://github.com/kobuki-base/kobuki_ros.git
 
   # Additionals
   git clone https://github.com/YDLIDAR/ydlidar_ros2_driver.git

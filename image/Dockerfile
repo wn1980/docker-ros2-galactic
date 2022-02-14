@@ -168,7 +168,7 @@ RUN mkdir -p $HOME/dev_ws/src && \
     git clone https://github.com/kobuki-base/kobuki_ros_interfaces.git && \
     git clone https://github.com/YDLIDAR/ydlidar_ros2_driver.git && \
     git clone https://github.com/wn1980/turtlebot2_ros2.git && \
-    git clone https://github.com/michieletto/kobuki_ros.git && \
+    git clone https://github.com/kobuki-base/kobuki_ros.git && \
 	mv kobuki_ros/kobuki_description ./ && \
 	rm -rf kobuki_ros && \
     cd $HOME/dev_ws && \
