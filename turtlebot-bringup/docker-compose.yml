@@ -1,0 +1,31 @@
+version: '2.3'
+
+# create default network
+#networks:
+#  default:
+#    external:
+#      name: ros-network
+
+services:
+
+  ros2-turtlebot-bringup:
+    #build: ./image
+    image: wn1980/turtlebot-bringup-ros2${TAG}
+    container_name: ros2_turtlebot_bringup
+    init: true
+    restart: unless-stopped
+    privileged: true
+    network_mode: host
+    devices:
+      - "/dev:/dev"
+    volumes:
+      - "/dev:/dev"
+      - "/etc/localtime:/etc/localtime:ro"
+    environment:
+      - ROS_DOMAIN_ID=50
+      - TURTLEBOT_BASE=kobuki
+      - TURTLEBOT_3D_SENSOR=asus_xtion_pro
+      - TURTLEBOT_BATTERY=/proc/acpi/battery/BAT0
+      - TURTLEBOT_STACKS=hexagons
+      - TURTLEBOT_SIMULATION=false
+      - TURTLEBOT_SERIAL_PORT=/dev/kobuki
