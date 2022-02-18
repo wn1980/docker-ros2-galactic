@@ -9,7 +9,7 @@ version: '2.3'
 services:
 
   ros2-turtlebot-bringup:
-    #build: ./image
+    build: ./image
     image: wn1980/turtlebot-bringup-ros2${TAG}
     container_name: ros2_turtlebot_bringup
     init: true

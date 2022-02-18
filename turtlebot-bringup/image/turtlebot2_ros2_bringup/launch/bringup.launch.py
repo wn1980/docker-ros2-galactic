@@ -162,9 +162,4 @@ def generate_launch_description():
             name='activation_button_node',
             output='screen'
         ),
-
-        ExecuteProcess(
-            cmd=['ros2', 'topic', 'pub', '/mobile_base/enable', 'std_msgs/msg/Empty', '--once'],
-            output='screen'
-        )
     ])

@@ -1,4 +1,4 @@
-FROM ros:foxy-ros-core-focal
+FROM ros:galactic-ros-core-focal
 
 LABEL maintainer="Waipot Ngamsaad <waipotn@hotmail.com>"
 
@@ -23,6 +23,14 @@ RUN mkdir -p /ros2_ws/src && \
 	echo "DONE"
 
 RUN cd /ros2_ws/src && \
+  git clone https://github.com/stonier/sophus.git -b release/1.2.x && \
+  git clone https://github.com/stonier/ecl_core.git -b release/1.2.x && \
+  git clone https://github.com/stonier/ecl_lite.git -b release/1.1.x && \
+  git clone https://github.com/stonier/ecl_tools.git -b release/1.0.x && \
+  echo "DONE"
+
+RUN cd /ros2_ws/src && \
+	git clone https://github.com/kobuki-base/kobuki_core.git && \
 	git clone https://github.com/kobuki-base/kobuki_ros_interfaces.git && \
   	git clone https://github.com/kobuki-base/velocity_smoother.git && \
 	git clone https://github.com/kobuki-base/cmd_vel_mux.git && \
@@ -30,20 +38,10 @@ RUN cd /ros2_ws/src && \
 
 RUN cd /ros2_ws/src && \
 	git clone https://github.com/kobuki-base/kobuki_ros.git && \
-	mv kobuki_ros/kobuki_node kobuki_ros/kobuki_keyop kobuki_ros/kobuki_safety_controller kobuki_ros/kobuki_bumper2pc ./ && \
+	mv kobuki_ros/kobuki_node kobuki_ros/kobuki_keyop kobuki_ros/kobuki_safety_controller \
+	   kobuki_ros/kobuki_bumper2pc kobuki_ros/kobuki_auto_docking \
+	   kobuki_ros/kobuki_description ./ && \
 	rm -rf kobuki_ros
-
-RUN cd /ros2_ws/src && \
-	git clone https://github.com/michieletto/kobuki_ros.git && \
-	mv kobuki_ros/kobuki_description ./ && \
-	rm -rf kobuki_ros
-
-RUN cd /ros2_ws/src && \
-	git clone https://github.com/wn1980/kobuki_ros.git && \
-	mv kobuki_ros/kobuki_auto_docking ./ && \
-	rm -rf kobuki_ros
-
-#COPY ./turtlebot2_ros2_bringup /ros2_ws/src/turtlebot2_ros2_bringup
 
 RUN apt-get update && apt-get upgrade -y 
 RUN apt-get install -y \ 
@@ -55,7 +53,7 @@ RUN rosdep init && rosdep update
 
 RUN cd /ros2_ws && \
 	source /opt/ros/${ROS_DISTRO}/setup.bash && \
-	rosdep install -i --from-path src --rosdistro foxy -y && \
+	rosdep install -i --from-path src --rosdistro galactic -y && \
 	colcon build --symlink-install && \
 	echo "DONE"
 
