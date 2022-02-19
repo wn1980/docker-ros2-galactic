@@ -1,5 +1,5 @@
-#FROM ros:galactic-ros-core-focal
-FROM ros:foxy-ros-core-focal
+FROM ros:galactic-ros-core-focal
+#FROM ros:foxy-ros-core-focal
 #FROM ros:dashing-ros-core-bionic
 
 LABEL maintainer="Waipot Ngamsaad <waipotn@hotmail.com>"
@@ -34,7 +34,7 @@ RUN cd /ros2_ws/src && \
 
 RUN cd /ros2_ws && \
 	source /opt/ros/${ROS_DISTRO}/setup.bash && \
-	rosdep install -i --from-path src --rosdistro foxy -y && \
+	rosdep install -i --from-path src --rosdistro galactic -y && \
 	colcon build --symlink-install && \
 	echo "DONE"
 
