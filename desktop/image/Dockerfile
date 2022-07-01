@@ -106,7 +106,7 @@ RUN apt-get install -y \
 # install code-server
 COPY ./app/install/code-server.sh /
 
-RUN /code-server.sh 4.4.0 && sudo rm -f /code-server.sh
+RUN /code-server.sh 4.5.0 && sudo rm -f /code-server.sh
 
 # init rosdep
 RUN rm /etc/ros/rosdep/sources.list.d/20-default.list && \
@@ -148,14 +148,14 @@ RUN echo "source /usr/share/bash-completion/bash_completion" >> ~/.bashrc && \
     echo "source ~/.bashrc" >> ~/.bash_profile 
 
 # install ydlidar_sdk first
-RUN cd ~ && \
-    git clone https://github.com/YDLIDAR/YDLidar-SDK.git && \
-    mkdir -p YDLidar-SDK/build && \
-    cd YDLidar-SDK/build && \
-    cmake .. && \
-    sudo make install && \
-    rm -rf ~/YDLidar-SDK && \
-    echo "DONE"
+#RUN cd ~ && \
+#    git clone https://github.com/YDLIDAR/YDLidar-SDK.git && \
+#    mkdir -p YDLidar-SDK/build && \
+#    cd YDLidar-SDK/build && \
+#    cmake .. && \
+#    sudo make install && \
+#    rm -rf ~/YDLidar-SDK && \
+#    echo "DONE"
 
 # compile turtlebot2 packages from sources
 #COPY ./app/install/turtlebot2.sh /

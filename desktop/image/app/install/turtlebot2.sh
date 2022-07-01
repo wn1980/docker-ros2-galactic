@@ -36,13 +36,13 @@ if [ ! -d $TURTLEBOT_WS/src/kobuki_ros ]; then
   git clone https://github.com/wn1980/turtlebot2_ros2.git
 
   # install ydlidar_sdk first
-  #cd ~
-  #git clone https://github.com/YDLIDAR/YDLidar-SDK.git 
-  #mkdir -p YDLidar-SDK/build
-  #cd YDLidar-SDK/build
-  #cmake ..
-  #sudo make install
-  #rm -rf ~/YDLidar-SDK
+  cd ~
+  git clone https://github.com/YDLIDAR/YDLidar-SDK.git 
+  mkdir -p YDLidar-SDK/build
+  cd YDLidar-SDK/build
+  cmake ..
+  sudo make install
+  rm -rf ~/YDLidar-SDK
 
 fi
 
