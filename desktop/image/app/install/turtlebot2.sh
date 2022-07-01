@@ -2,7 +2,13 @@
 
 set -e
 
-sudo apt-get install git -y
+#sudo apt-get update
+#sudo apt-get install -y \
+#  git \
+#  ros-galactic-ecl-core \
+#  ros-galactic-ecl-lite \
+#  ros-galactic-ecl-tools \
+#  ros-galactic-sophus
 
 TURTLEBOT_WS=$HOME/dev_ws
 
@@ -12,10 +18,10 @@ if [ ! -d $TURTLEBOT_WS/src/kobuki_ros ]; then
 
   cd $TURTLEBOT_WS/src
 
-  git clone https://github.com/stonier/sophus.git -b release/1.2.x
-  git clone https://github.com/stonier/ecl_core.git -b release/1.2.x
-  git clone https://github.com/stonier/ecl_lite.git -b release/1.1.x
-  git clone https://github.com/stonier/ecl_tools.git -b release/1.0.x
+  #git clone https://github.com/stonier/sophus.git -b release/1.2.x
+  #git clone https://github.com/stonier/ecl_core.git -b release/1.2.x
+  #git clone https://github.com/stonier/ecl_lite.git -b release/1.1.x
+  #git clone https://github.com/stonier/ecl_tools.git -b release/1.0.x
 
   git clone https://github.com/kobuki-base/kobuki_core.git
   git clone https://github.com/kobuki-base/velocity_smoother.git
@@ -29,18 +35,18 @@ if [ ! -d $TURTLEBOT_WS/src/kobuki_ros ]; then
   git clone https://github.com/YDLIDAR/ydlidar_ros2_driver.git
   git clone https://github.com/wn1980/turtlebot2_ros2.git
 
+  # install ydlidar_sdk first
+  #cd ~
+  #git clone https://github.com/YDLIDAR/YDLidar-SDK.git 
+  #mkdir -p YDLidar-SDK/build
+  #cd YDLidar-SDK/build
+  #cmake ..
+  #sudo make install
+  #rm -rf ~/YDLidar-SDK
+
 fi
 
 sudo apt-get update && sudo apt-get upgrade -y 
-
-# install ydlidar_sdk first
-cd ~
-git clone https://github.com/YDLIDAR/YDLidar-SDK.git 
-mkdir -p YDLidar-SDK/build
-cd YDLidar-SDK/build
-cmake ..
-sudo make install
-rm -rf ~/YDLidar-SDK
 
 # make and install
 cd $TURTLEBOT_WS
