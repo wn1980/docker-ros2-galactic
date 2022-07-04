@@ -22,6 +22,8 @@ if [ ! -d $PY_TREES_WS/src/py_trees_ros ]; then
   git clone https://github.com/splintered-reality/py_trees_ros.git -b release/2.1.x
   git clone https://github.com/splintered-reality/py_trees_ros_interfaces.git -b release/2.0.x
   git clone https://github.com/splintered-reality/py_trees_ros_tutorials.git -b release/2.1.x
+  git clone https://github.com/splintered-reality/py_trees_js.git
+  git clone https://github.com/splintered-reality/py_trees_ros_viewer.git
 
   git clone https://github.com/BehaviorTree/Groot.git
 
