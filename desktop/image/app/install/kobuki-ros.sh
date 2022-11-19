@@ -12,13 +12,19 @@ if [ ! -d $ROS_WS/src/kobuki_ros ]; then
 
   cd $ROS_WS/src
 
-  # tested on hunble
-  git clone https://github.com/stonier/sophus.git -b 1.3.1
-  git clone https://github.com/stonier/ecl_tools.git -b 1.0.3
-  git clone https://github.com/stonier/ecl_core.git -b 1.2.1
-  git clone https://github.com/stonier/ecl_lite.git -b 1.2.0
+  # tested on galatic
+  #git clone https://github.com/stonier/sophus.git -b 1.3.1
+  #git clone https://github.com/stonier/ecl_tools.git -b 1.0.3
+  #git clone https://github.com/stonier/ecl_core.git -b 1.2.1
+  #git clone https://github.com/stonier/ecl_lite.git -b 1.2.0
 
-  git clone https://github.com/kobuki-base/kobuki_ros_interfaces.git
+  #git clone https://github.com/kobuki-base/kobuki_ros_interfaces.git
+  #git clone https://github.com/kobuki-base/velocity_smoother.git
+
+  git clone https://github.com/kobuki-base/kobuki_core.git
+  git clone https://github.com/kobuki-base/cmd_vel_mux.git
+  
+  git clone https://github.com/kobuki-base/kobuki_ros.git
 
 fi
 
@@ -27,7 +33,7 @@ sudo apt-get update #&& sudo apt-get upgrade -y
 # make and install
 cd $ROS_WS
 
-sudo rosdep install -i --from-path src --rosdistro humble -y
+sudo rosdep install -i --from-path src --rosdistro ${ROS_DISTRO} -y
   
 source /opt/ros/${ROS_DISTRO}/setup.bash
 

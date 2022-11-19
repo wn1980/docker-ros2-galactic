@@ -2,26 +2,25 @@
 
 set -e
 
-sudo apt-get update
-sudo apt-get install -y \
-  git 
+sudo apt update && sudo apt-get install -y git
 
-TURTLEBOT_WS=$HOME/dev_ws
+DEV_WS=$HOME/dev_ws
 
-if [ ! -d $TURTLEBOT_WS/src/turtlebot2_ros2 ]; then
+if [ ! -d $DEV_WS/src/create_robot ]; then
 
-  mkdir -p $TURTLEBOT_WS/src
+  mkdir -p $DEV_WS/src
 
-  cd $TURTLEBOT_WS/src
+  cd $DEV_WS/src
 
-  git clone https://github.com/wn1980/turtlebot2_ros2.git
+  git clone https://github.com/AutonomyLab/libcreate.git
+  git clone https://github.com/AutonomyLab/create_robot.git -b foxy
 
 fi
 
 sudo apt-get update && sudo apt-get upgrade -y 
 
 # make and install
-cd $TURTLEBOT_WS
+cd $DEV_WS
 
 sudo rosdep install -i --from-path src --rosdistro ${ROS_DISTRO} -y
   
