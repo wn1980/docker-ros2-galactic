@@ -1,5 +1,6 @@
 #FROM ros:foxy-ros-base-focal
 FROM ros:galactic-ros-base-focal
+#FROM ros:humble-ros-base-jammy
 
 LABEL maintainer="Waipot Ngamsaad <waipotn@hotmail.com>"
 
@@ -7,7 +8,7 @@ SHELL ["/bin/bash", "-c"]
 
 ENV DEBIAN_FRONTEND noninteractive
 
-RUN  apt-key adv --keyserver 'hkp://keyserver.ubuntu.com:80' --recv-key C1CF6E31E6BADE8868B172B4F42ED6FBAB17C654
+#RUN  apt-key adv --keyserver 'hkp://keyserver.ubuntu.com:80' --recv-key C1CF6E31E6BADE8868B172B4F42ED6FBAB17C654
 
 RUN sed -i -e 's/http:\/\/archive/mirror:\/\/mirrors/' -e 's/http:\/\/security/mirror:\/\/mirrors/' -e 's/\/ubuntu\//\/mirrors.txt/' /etc/apt/sources.list
 
@@ -57,6 +58,7 @@ RUN apt-get install -y \
 	portaudio19-dev \
 	ffmpeg \
 	alsa-utils \
+    libi2c-dev \
     build-essential \
     && apt-get autoremove -y \
     && apt-get clean \
@@ -69,11 +71,17 @@ RUN sh -c 'echo "deb http://packages.osrfoundation.org/gazebo/ubuntu-stable `lsb
 RUN apt-get update --fix-missing && apt-get upgrade --fix-missing -y
 RUN apt-get install -y \
     ros-${ROS_DISTRO}-desktop \
+    ros-${ROS_DISTRO}-rviz-imu-plugin \
     python3-rosdep \
     python3-colcon-common-extensions \
     && apt-get autoremove -y \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
+
+# init rosdep
+RUN rm /etc/ros/rosdep/sources.list.d/20-default.list && \
+    rosdep init && \
+    rm /etc/apt/apt.conf.d/docker-clean
 
 # update pip and install some packages
 RUN curl https://bootstrap.pypa.io//get-pip.py | python3 - && \
@@ -85,7 +93,7 @@ RUN curl https://bootstrap.pypa.io//get-pip.py | python3 - && \
         supervisor_twiddler
 
 # install nodejs
-RUN sh -c 'echo "deb https://deb.nodesource.com/node_12.x `lsb_release -cs` main" > /etc/apt/sources.list.d/nodesource.list' && \
+RUN sh -c 'echo "deb https://deb.nodesource.com/node_14.x `lsb_release -cs` main" > /etc/apt/sources.list.d/nodesource.list' && \
     curl -sSL https://deb.nodesource.com/gpgkey/nodesource.gpg.key | apt-key add -
 
 RUN apt-get update && apt-get upgrade -y
@@ -99,19 +107,14 @@ RUN apt-get install -y \
 #RUN /tigervnc.sh && sudo rm -f /tigervnc.sh
 
 # install noVNC
-# COPY ./app/install/no-vnc.sh /
+#COPY ./app/install/no-vnc.sh /
 
-# RUN /no-vnc.sh && sudo rm -f /no-vnc.sh
+#RUN /no-vnc.sh && sudo rm -f /no-vnc.sh
 
 # install code-server
-COPY ./app/install/code-server.sh /
+#COPY ./app/install/code-server.sh /
 
-RUN /code-server.sh 4.5.0 && sudo rm -f /code-server.sh
-
-# init rosdep
-RUN rm /etc/ros/rosdep/sources.list.d/20-default.list && \
-    rosdep init && \
-    rm /etc/apt/apt.conf.d/docker-clean
+#RUN /code-server.sh 4.8.3 && sudo rm -f /code-server.sh
 
 # setup user space
 RUN mkdir -p {/workspace,/app}
@@ -132,9 +135,10 @@ ENV HOME /home/developer
 
 ENV SHELL /bin/bash
 
+#========== USER SPACE ==========#
 USER $USER
 
-WORKDIR /home/developer
+WORKDIR $HOME
 
 # init rosdep
 RUN rosdep fix-permissions && rosdep update
@@ -165,17 +169,17 @@ RUN echo "source /usr/share/bash-completion/bash_completion" >> ~/.bashrc && \
 RUN mkdir -p $HOME/dev_ws/src && \
     #bash /turtlebot2.sh && \
     #sudo rm -f /turtlebot2.sh && \
-    cd $HOME/dev_ws/src && \
+    #cd $HOME/dev_ws/src && \
     #git clone https://github.com/kobuki-base/kobuki_ros_interfaces.git && \
     #git clone https://github.com/YDLIDAR/ydlidar_ros2_driver.git && \
     #git clone https://github.com/wn1980/turtlebot2_ros2.git && \
     #git clone https://github.com/kobuki-base/kobuki_ros.git && \
 	#mv kobuki_ros/kobuki_description ./ && \
 	#rm -rf kobuki_ros && \
-    #cd $HOME/dev_ws && \
-    #sudo rosdep install -i --from-path src --rosdistro galactic -y && \
-    #source /opt/ros/${ROS_DISTRO}/setup.bash && \
-    #colcon build --symlink-install && \
+    cd $HOME/dev_ws && \
+    sudo rosdep install -i --from-path src --rosdistro humble -y && \
+    source /opt/ros/${ROS_DISTRO}/setup.bash && \
+    colcon build --symlink-install && \
     echo "DONE"
 
 # https://superuser.com/questions/555310/bash-save-history-without-exit
@@ -187,13 +191,25 @@ RUN echo "export PROMPT_COMMAND='history -a'" >> ~/.bashrc && \
     echo "export TURTLEBOT_3D_SENSOR=asus_xtion_pro" >> ~/.bashrc && \
     echo "export TURTLEBOT_MAP_FILE=~/workspace/maps/map.yaml" >> ~/.bashrc
 
-VOLUME /tmp/.X11-unix
-
-COPY ./app /app
+#COPY ./test_imu.rviz /home/developer/
+#COPY ./view_imu.sh /home/developer/
 
 COPY ./index.html /usr/share/novnc
+COPY ./app/install/code-server.sh /app/install/
 
-RUN sudo chown -R developer:developer /app
+# install code-server cert.
+RUN /app/install/code-server.sh 4.8.3
+
+COPY ./app /app
+RUN sudo chown -R developer:developer /app && \
+    sudo usermod -aG dialout developer && \
+    sudo usermod -aG i2c developer && \
+    sudo groupmod -g 998 i2c
+
+# fix code-server cert.
+RUN /app/install/fix-code-server-cert.sh
+
+VOLUME /tmp/.X11-unix
 
 ENV DISPLAY ":9"
 
