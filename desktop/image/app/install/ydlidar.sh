@@ -31,7 +31,7 @@ sudo apt-get update #&& sudo apt-get upgrade -y
 # make and install
 cd $DEV_WS
 
-sudo rosdep install -i --from-path src --rosdistro humble -y
+sudo rosdep install -i --from-path src --rosdistro ${ROS_DISTRO} -y
   
 source /opt/ros/${ROS_DISTRO}/setup.bash
 
