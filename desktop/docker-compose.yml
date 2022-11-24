@@ -12,7 +12,7 @@ volumes:
 services:
 
   ros2:
-    build: ./image
+    #build: ./image
     image: wn1980/ros2-galactic${TAG}
     container_name: ros2_galactic
     init: true
